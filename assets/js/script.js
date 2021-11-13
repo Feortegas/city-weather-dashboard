@@ -160,6 +160,12 @@ var formSubmitHandler = function(event) {
     if (cityName) {
         getWeatherData(cityName);
 
+        // create button dynamically
+        var historySearchEl = document.createElement("button");
+        historySearchEl.classList = "btn btn-primary btn-block";
+        historySearchEl.textContent = cityName;
+        searchFormEl.appendChild(historySearchEl);
+
         // clear old content
         cityNameEl.value = "";
     } else {
@@ -169,8 +175,3 @@ var formSubmitHandler = function(event) {
 
 // event listener - search button
 searchFormEl.addEventListener("submit", formSubmitHandler);
-
-
-
-
-// getOneCallApiData("34.0522", "-118.2437");
