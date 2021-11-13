@@ -4,6 +4,7 @@ const api_key = 'b24595aa58e805fb044c6ba2cad18792';
 var weather_icon = "http://openweathermap.org/img/w/";
 
 var searchFormEl = document.querySelector("#form-sidebar");
+var historyEl = document.querySelector("#history");
 var cityNameEl = document.querySelector("#form-search-city");
 
 // current weather elements
@@ -162,9 +163,9 @@ var formSubmitHandler = function(event) {
 
         // create button dynamically
         var historySearchEl = document.createElement("button");
-        historySearchEl.classList = "btn btn-primary btn-block";
+        historySearchEl.classList = "btn btn-secondary btn-block";
         historySearchEl.textContent = cityName;
-        searchFormEl.appendChild(historySearchEl);
+        historyEl.appendChild(historySearchEl);
 
         // clear old content
         cityNameEl.value = "";
