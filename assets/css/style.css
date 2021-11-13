@@ -4,4 +4,10 @@
 
 .label {
     font-size: 24px;
+    font-weight: bold;
+}
+
+#city-date {
+    font-size: 24px;
+    font-weight: bold;
 }

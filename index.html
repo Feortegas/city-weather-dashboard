@@ -21,16 +21,25 @@
     <div class="container-fluid h-100">
         <div class="row h-100">
             <!-- sidebar -->
-            <form class="col-4" id="form-sidebar">
+            <form class="col-4 mt-2" id="form-sidebar">
                 <div class="form-group">
                     <label for="form-search-city" class="label">Search for a City:</label>
                     <input type="text" class="form-control" id="form-search-city">
                 </div>
-                <button type="submit" class="btn btn-primary">Search</button>
+                <button type="submit" class="btn btn-primary btn-block">Search</button>
             </form>
             <!-- main content -->
-            <div class="col-8" style="text-align: justify;">
-                Testing main contet container
+            <div class="col-8 mt-2" style="text-align: justify;">
+                <div id="current-day" class="border border-dark px-2">
+                    <span id="city-date">City - Date</span><img id="weather-icon" />
+                    <p id="cur-temp">Temp: </p>
+                    <p id="cur-wind">Wind: </p>
+                    <p id="cur-humidity">Humidity: </p>
+                    <p id="cur-uv-index">UV Index: </p>
+                </div>
+                <div id="forecast">
+                    
+                </div>
             </div>
         </div>
     </div>
