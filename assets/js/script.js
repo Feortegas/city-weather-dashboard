@@ -1,6 +1,9 @@
 // api key
 var apiKey = 'b24595aa58e805fb044c6ba2cad18792';
 
+var searchFormEl = document.querySelector("#form-sidebar");
+var cityNameEl = document.querySelector("#form-search-city");
+
 // get weather data from API
 var getWeatherData = function (city) {
     var apiCurretWeatherUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=' + apiKey;
@@ -44,9 +47,28 @@ var getOneCallApiData = function (lat, lon) {
         });
 };
 
+// form search handler function
+var formSubmitHandler = function(event) {
+    // prevent page from refreshing
+    event.preventDefault();
+
+    // get value from input element
+    var cityName = cityNameEl.value.trim();
+
+    if (cityName) {
+        getWeatherData(cityName);
+
+        // clear old content
+        cityNameEl.value = "";
+    } else {
+        alert("Please enter a City name");
+    }
+};
+
+// event listener - search button
+searchFormEl.addEventListener("submit", formSubmitHandler);
 
 
 
-getWeatherData("Los Angeles");
 
 getOneCallApiData("34.0522", "-118.2437");
