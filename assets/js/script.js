@@ -163,6 +163,7 @@ var formSubmitHandler = function(event) {
 
         // create button dynamically
         var historySearchEl = document.createElement("button");
+        historySearchEl.type = "button";
         historySearchEl.classList = "btn btn-secondary btn-block";
         historySearchEl.textContent = cityName;
         historyEl.appendChild(historySearchEl);
@@ -174,5 +175,13 @@ var formSubmitHandler = function(event) {
     }
 };
 
+var formButtonHandler = function() {
+    console.log(this.textContent);
+};
+
 // event listener - search button
 searchFormEl.addEventListener("submit", formSubmitHandler);
+
+searchFormEl.addEventListener("button", formButtonHandler);
+
+$(searchFormEl).on("click", )
