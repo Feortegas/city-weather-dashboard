@@ -161,12 +161,12 @@ var formSubmitHandler = function(event) {
     if (cityName) {
         getWeatherData(cityName);
 
-        // create button dynamically
-        var historySearchEl = document.createElement("button");
-        historySearchEl.type = "button";
-        historySearchEl.classList = "btn btn-secondary btn-block";
-        historySearchEl.textContent = cityName;
-        historyEl.appendChild(historySearchEl);
+        var getBtnEl = document.getElementById(cityName);
+
+        // if city already doesn't exist in the search history then create new button
+        if (!getBtnEl) {
+            createSearchHistory(cityName);
+        }
 
         // clear old content
         cityNameEl.value = "";
@@ -175,13 +175,24 @@ var formSubmitHandler = function(event) {
     }
 };
 
+// create search history button elements
+var createSearchHistory = function(city) {
+    // create button dynamically
+    var historySearchEl = document.createElement("button");
+    historySearchEl.type = "button";
+    historySearchEl.id = city;
+    historySearchEl.classList = "btn btn-secondary btn-block";
+    historySearchEl.textContent = city;
+    historyEl.appendChild(historySearchEl);
+
+    // add event listener for search history buttons
+    historySearchEl.onclick = formButtonHandler;
+};
+
+// search history buttons event handler
 var formButtonHandler = function() {
-    console.log(this.textContent);
+    getWeatherData(this.textContent);
 };
 
 // event listener - search button
 searchFormEl.addEventListener("submit", formSubmitHandler);
-
-searchFormEl.addEventListener("button", formButtonHandler);
-
-$(searchFormEl).on("click", )
