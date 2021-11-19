@@ -24,8 +24,7 @@ var getWeatherData = function (city) {
             // request was successful
             if (response.ok) {
                 response.json().then(function (data) {
-                    // console.log(data);
-                    getCurWeather(data.name, data.main.temp, data.wind.speed, data.main.humidity, data.clouds.all, data.weather[0].icon);
+                    getCurWeather(data.name, data.main.temp, data.wind.speed, data.main.humidity, data.weather[0].icon);
                     getOneCallApiData(data.coord.lat, data.coord.lon);
                   });
             } else {
@@ -46,8 +45,8 @@ var getOneCallApiData = function (lat, lon) {
             // request was successful
             if (response.ok) {
                 response.json().then(function(data) {
-                    console.log(data);
                     getForecast(data);
+                    getUvIndex(data);
                 });
             } else {
                 alert("Error: OpenWeather - Lat and Lon not found");
@@ -59,20 +58,41 @@ var getOneCallApiData = function (lat, lon) {
 };
 
 // get current weather data
-var getCurWeather = function(city_name, cur_temp, cur_wind_speed, cur_humidity, cur_clouds, cur_icon) {
+var getCurWeather = function(city_name, cur_temp, cur_wind_speed, cur_humidity, cur_icon) {
     if (getCurWeather) {
         cityDateEl.textContent = city_name + " (" + moment().format("L") + ")";
         cityWeatherIcon.src = weather_icon + cur_icon + ".png";
         curTempEl.textContent = "Temp: "+ cur_temp + "F";
         curWindEl.textContent = "Wind: "+ cur_wind_speed + "mph";
-        curHumidityEl.textContent = "Humidity: "+ cur_humidity + "%";
-        curUvIndexEl.textContent = "UV Index: "+ cur_clouds;
+        curHumidityEl.textContent = "Humidity: " + cur_humidity + "%";
+        // curUvIndexEl.textContent = "UV Index: ";
     }
 };
 
 // get forecast for the next 5 days
 var getForecast = function (data) {
     if (getForecast) {
+        // update UVI and set style
+        var curUvi = data.current.uvi;
+        curUvIndexEl.textContent = "UV Index: " + curUvi;
+
+        // UV Index Scale: https://www.epa.gov/sunsafety/uv-index-scale-0
+        if (curUvi >= 0 && curUvi < 3) {
+            curUvIndexEl.setAttribute("style", "background-color: green;");
+        }
+        else if (curUvi >= 3 && curUvi < 6) {
+            curUvIndexEl.setAttribute("style", "background-color: yellow;");
+        }
+        else if (curUvi >= 6 && curUvi < 8) {
+            curUvIndexEl.setAttribute("style", "background-color: orange;");
+        }
+        else if (curUvi >= 8 && curUvi < 11) {
+            curUvIndexEl.setAttribute("style", "background-color: red;");
+        }
+        else {
+            curUvIndexEl.setAttribute("style", "background-color: purple;");
+        }
+
         for (let index = 0; index < 5; index++) {
             var fcData = data.daily[index];
             // theIndex used to match the index of the API that starts with zero, but the HTML element ID's start with a 1 for the 1st day forecast.
@@ -84,6 +104,11 @@ var getForecast = function (data) {
             document.querySelector("#humidity-fc" + theIndex).textContent = "Humidity: " + fcData.humidity + " %";
         }
     }
+};
+
+// get UV Index
+var getUvIndex = function(data) {
+    return data.current.uvi;
 };
 
 // form search handler function
@@ -118,7 +143,6 @@ var saveLocalStorage = function(city) {
     var searchHistory = JSON.parse(window.localStorage.getItem("searchHistory")) || [];
 
     searchHistory.push(city);
-    console.log(searchHistory);
     window.localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
 };
 
