@@ -101,6 +101,7 @@ var formSubmitHandler = function(event) {
 
         // if city already doesn't exist in the search history then create new button
         if (!getBtnEl) {
+            saveLocalStorage(cityName);
             createSearchHistory(cityName);
         }
 
@@ -109,6 +110,16 @@ var formSubmitHandler = function(event) {
     } else {
         alert("Please enter a City name");
     }
+};
+
+// save data to local storage
+var saveLocalStorage = function(city) {
+    // load data from local storage to build array before push
+    var searchHistory = JSON.parse(window.localStorage.getItem("searchHistory")) || [];
+
+    searchHistory.push(city);
+    console.log(searchHistory);
+    window.localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
 };
 
 // create search history button elements
@@ -129,6 +140,23 @@ var createSearchHistory = function(city) {
 var formButtonHandler = function() {
     getWeatherData(this.textContent);
 };
+
+// load local storage data
+var loadLocalStorage = function() {
+
+    var searchHistory = JSON.parse(window.localStorage.getItem("searchHistory")) || [];
+
+    if (!searchHistory) {
+        return false;
+    }
+
+    // loop through array and create search history buttons
+    searchHistory.forEach(createSearchHistory);
+
+};
+
+// load data from local storage on website load/refresh
+loadLocalStorage();
 
 // event listener - search button
 searchFormEl.addEventListener("submit", formSubmitHandler);
